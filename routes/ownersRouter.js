@@ -19,6 +19,19 @@ router.post("/create",async function(req,res){
   res.status(201).send(createdOwner);
 })
 } 
+router.post("/product/create", async function(req, res) {
+  try {
+    const { name, price, description, bgcolor } = req.body;
+
+
+    req.flash("success", "Product created successfully!");
+    res.redirect("/owners/admin");
+  } catch (error) {
+    console.log(error.message);
+    req.flash("error", "Failed to create product");
+    res.redirect("/owners/admin");
+  }
+});
 
 
 router.get("/",function(req,res){
@@ -27,7 +40,7 @@ router.get("/",function(req,res){
 
 
 router.get("/admin", function(req, res) {
-  const success = req.flash("success");
+  let success = req.flash("success");
   const error = req.flash("error");
   res.render("createproducts", { success, error });
 });
